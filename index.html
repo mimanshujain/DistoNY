@@ -251,7 +251,7 @@ text-anchor: middle;
 					<div class="row">
 						<div class="col-md-8 col-md-offset-2 object-non-visible" data-animation-effect="fadeIn">
 							<h1 class="text-center">We are <span>DistoNY</span></h1>
-							<p class="lead text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos debitis provident nulla illum minus enim praesentium repellendus ullam cupiditate reiciendis optio voluptatem, recusandae nobis quis aperiam, sapiente libero ut at.</p>
+							<b><p class="lead text-center">Interactive data visualization goes a step further – moving beyond the display of static graphics and spreadsheets to using computers and mobile devices to drill down into charts and graphs for more details.  We are making it more INTUITIVE.</p></b>
 						</div>
 					</div>
 				</div>
@@ -266,10 +266,10 @@ text-anchor: middle;
 				<div class="row">
 					<div class="col-md-12">
 						<h1 id="about" class="title text-center">About <span>DistoNY</span></h1>
-						<p class="lead text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta officia, aspernatur.</p>
+						<p class="lead text-center">We are represting data in a more Intuitive manner by distorting the map based on the values measured on the scale of various parameters.</p>
 						<div class="space"></div>
 						<div class="row">
-							<div class="col-md-6">
+			<!-- 				<div class="col-md-6">
 								<img src="images/section-image-1.png" alt="">
 								<div class="space"></div>
 							</div>
@@ -281,10 +281,10 @@ text-anchor: middle;
 									<li><i class="fa fa-caret-right pr-10 text-colored"></i> Lorem ipsum dolor sit amet</li>
 									<li><i class="fa fa-caret-right pr-10 text-colored"></i> Dignissimos molestiae necessitatibus</li>
 								</ul>
-							</div>
+							</div> -->
 						</div>
 						<div class="space"></div>
-						<h2>Becessitatibus quae beatae possimus ullam</h2>
+						<!-- <h2>Becessitatibus quae beatae possimus ullam</h2> -->
 						<div class="row">
 							<div class="col-md-6">
 							</div>
@@ -302,9 +302,50 @@ text-anchor: middle;
 
 		<!-- section start -->
 		<!-- ================ -->
-		<div class="section translucent-bg  black">
+		<div class="section translucent-bg black">
 			<div class="container object-non-visible" data-animation-effect="fadeIn">
 				<h1 id="services"  class="text-center title">A Visualization New York State Data</h1>
+        <div id = "x_axis">
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select X Axis
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li><a href="#" id="poverty1">Poverty</a></li>
+            <li><a href="#" id="health">Health</a></li>
+            <li><a href="#" id="crime">Crime</a></li>
+            <li><a href="#" id="education">Education</a></li>
+            <li><a href="#" id="banking">Banking</a></li>
+          </ul>
+        </div>  
+        </div>   
+        <br>
+        <div id = "y_axis">
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Y Axis
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li><a href="#" id="poverty">Poverty</a></li>
+            <li><a href="#" id="health">Health</a></li>
+            <li><a href="#" id="crime">Crime</a></li>
+            <li><a href="#" id="education">Education</a></li>
+            <li><a href="#" id="banking">Banking</a></li>
+          </ul>
+        </div>  
+        </div> 
+        <br>
+        <div id = "circle">
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Circle
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li><a href="#" id="poverty">Poverty</a></li>
+            <li><a href="#" id="health">Health</a></li>
+            <li><a href="#" id="crime">Crime</a></li>
+            <li><a href="#" id="education">Education</a></li>
+            <li><a href="#" id="banking">Banking</a></li>
+          </ul>
+        </div>  
+        </div> 
 				<div class="space"></div>
 				<div class="row" align="center">
 <!-- 					<div class="col-sm-6">
@@ -488,13 +529,51 @@ text-anchor: middle;
 		<!-- Custom Scripts -->
 		<script type="text/javascript" src="js/custom.js"></script>
 <script>
-
-// Various accessors that specify the four dimensions of data to visualize.
-function x(d) { return d.income; }
-function y(d) { return d.lifeExpectancy; }
-function radius(d) { return d.population; }
+document.getElementById("y_axis").style.display = 'none';
+document.getElementById("circle").style.display = 'none';
+$('#poverty1').click(function(e) {
+    alert('alerted');
+    document.getElementById("y_axis").style.display = 'block';
+    e.preventDefault();// prevent the default anchor functionality
+});
+$('#poverty1').click(function(e) {
+    alert('alerted');
+    document.getElementById("y_axis").style.display = 'block';
+    e.preventDefault();// prevent the default anchor functionality
+});
+// alert("Hi");
+loadVisual("education", "poverty", "health");
+// loadVisual();
+function loadVisual(x_val, y_val, cir_val){
+  // function loadVisual(){
+  // alert("Hi "+x_val+" "+ y_val+" "+cir_val);
+ // alert("Hi");
+  // Various accessors that specify the four dimensions of data to visualize.
+function x(d) { //alert("Hi1");
+  return selection(x_val, d);
+ // return d.income; 
+ // return d.education; 
+}
+function y(d) { //alert("Hi2");
+  return selection(y_val, d);
+  // return d.poverty; 
+  // return d.lifeExpectancy; 
+}
+function radius(d) { //alert("Hi3");
+    return selection(cir_val, d);
+  // return d.health; 
+  // return d.population; 
+}
 function color(d) { return d.region; }
 function key(d) { return d.name; }
+
+function selection(axisValue, d){
+  if(axisValue=="education") return d.education;
+  if(axisValue=="poverty") return d.poverty;
+  if(axisValue=="health") return d.health;
+  if(axisValue=="crime") return d.crime;
+  if(axisValue=="banking") return d.banking;
+}
 
 // Chart dimensions.
 var margin = {top: 9.5, right: 49.5, bottom: 29.5, left: 59.5},
@@ -502,8 +581,8 @@ var margin = {top: 9.5, right: 49.5, bottom: 29.5, left: 59.5},
     height = 500 - margin.top - margin.bottom;
 
 // Various scales. These domains make assumptions of data, naturally.
-var xScale = d3.scale.log().domain([200, 1e6+500]).range([0, width]),
-    yScale = d3.scale.linear().domain([10, 120]).range([height, 0]),
+var xScale = d3.scale.log().domain([200, 1e6+500]).range([0, width]),//[200, 1e6+500]
+    yScale = d3.scale.linear().domain([1, 120]).range([height, 0]),
     radiusScale = d3.scale.sqrt().domain([0, 5e8]).range([0, 70]),
     colorScale = d3.scale.category10();
 
@@ -644,12 +723,16 @@ d3.json("http://localhost/Data.json", function(nations) {
   // Interpolates the dataset for the given (fractional) year.
   function interpolateData(year) {
     return nations.map(function(d) {
+      // console.log(d);
       return {
         name: d.name,
         region: d.region,
-        income: interpolateValues(d.income, year),
-        population: interpolateValues(d.population, year),
-        lifeExpectancy: interpolateValues(d.lifeExpectancy, year)
+        // income: interpolateValues(d.income, year),
+        // population: interpolateValues(d.population, year),
+        // lifeExpectancy: interpolateValues(d.lifeExpectancy, year)
+        education: interpolateValues(d.education, year),
+        health: interpolateValues(d.health, year),
+        poverty: interpolateValues(d.poverty, year)        
       };
     });
   }
@@ -663,6 +746,7 @@ d3.json("http://localhost/Data.json", function(nations) {
           t = (year - a[0]) / (b[0] - a[0]);
       return a[1] * (1 - t) + b[1] * t;
     }
+    console.log(a[1])
     return a[1];
   }
   
@@ -755,6 +839,8 @@ setTimeout(function() {
 }, 1000);
 
 });
+}
+
 
 </script>
 <script src="distoUtils.js"></script>

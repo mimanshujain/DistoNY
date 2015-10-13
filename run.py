@@ -91,6 +91,10 @@ def generate_JSON(workbook, type1):
                 val = float(val)/1000
             if type1 == "Health":
                 val = float(val)*1000
+            if type1 == "Crime" and float(val) > 10000:
+                val = float(val)/1000
+            if type1 == "Crime" and float(val) < 10000 and float(val) > 1000:
+                val = float(val)/10
             value.append([str(year), val])
 
         # data[curr_row] = {}
@@ -107,28 +111,38 @@ def generate_JSON(workbook, type1):
 
 
 if __name__ == '__main__':
-    workbook_pov = xlrd.open_workbook("Poverty.xls")
+    path = os.getcwd()
+    path += "/data/"
+    workbook_pov = xlrd.open_workbook(path+"Poverty.xls")
     poverty_data = generate_JSON(workbook_pov, "Poverty")
-    workbook_health = xlrd.open_workbook("Health.xls")
+    workbook_health = xlrd.open_workbook(path+"Health.xls")
     health_data = generate_JSON(workbook_health, "Health")
-    workbook_Edu = xlrd.open_workbook("Education.xls")
+    workbook_Edu = xlrd.open_workbook(path+"Education.xls")
     edu_data = generate_JSON(workbook_Edu, "Education")
-
+    workbook_Crime = xlrd.open_workbook(path+"Crime.xls")
+    crime_data = generate_JSON(workbook_Crime, "Crime")
+    workbook_Bank = xlrd.open_workbook(path+"Banking.xls")
+    bank_data = generate_JSON(workbook_Bank, "Banking")
     data = []
     i = 0
-    if poverty_data.__len__() == health_data.__len__() and health_data.__len__() == edu_data.__len__():
-        for county in poverty_data:
-            temp = {}
-            temp["name"] = str(county)
-            temp["region"] = str(county)
-            temp["population"] = health_data[county] # Circle
-            temp["lifeExpectancy"] = poverty_data[county] # y -axis
-            temp["income"] = edu_data[county] # x -axis
-            data.append(temp)
-            # if i > 0:
-            #     break
-            # break
-            # i += 1
+    # if poverty_data.__len__() == health_data.__len__() and health_data.__len__() == edu_data.__len__():
+    for county in poverty_data:
+        temp = {}
+        temp["name"] = str(county)
+        temp["region"] = str(county)
+        # temp["population"] = health_data[county] # Circle
+        # temp["lifeExpectancy"] = poverty_data[county] # y -axis
+        # temp["income"] = edu_data[county] # x -axis
+        temp["health"] = health_data[county] # Circle
+        temp["poverty"] = poverty_data[county] # y -axis
+        temp["education"] = edu_data[county] # x -axis
+        temp["crime"] = crime_data[county]
+        temp["banking"] = bank_data[county]
+        data.append(temp)
+        # if i > 0:
+        #     break
+        # break
+        # i += 1
 
     simplejson.dump(data, open("Data.json", "w"))
     # app.run(debug=True)
