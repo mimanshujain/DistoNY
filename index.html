@@ -127,7 +127,7 @@ margin: 0;
 
 path.state {
 stroke: #666;
-stroke-width: .02;
+/*stroke-width: .05;*/
 }
 
 path.state:hover {
@@ -364,7 +364,7 @@ text-anchor: middle;
 		</div>
 		<!-- section end -->
 		<!-- section start -->
-		<!-- ================ -->
+		<!-- ================ -->		
 		<div class="section">
 			<div class="container">
 				<h1 class="text-center title" id="portfolio">Distorted Map</h1>
@@ -532,12 +532,12 @@ text-anchor: middle;
 document.getElementById("y_axis").style.display = 'none';
 document.getElementById("circle").style.display = 'none';
 $('#poverty1').click(function(e) {
-    alert('alerted');
+    //alert('alerted');
     document.getElementById("y_axis").style.display = 'block';
     e.preventDefault();// prevent the default anchor functionality
 });
 $('#poverty1').click(function(e) {
-    alert('alerted');
+    //alert('alerted');
     document.getElementById("y_axis").style.display = 'block';
     e.preventDefault();// prevent the default anchor functionality
 });
@@ -746,7 +746,7 @@ d3.json("http://localhost/Data.json", function(nations) {
           t = (year - a[0]) / (b[0] - a[0]);
       return a[1] * (1 - t) + b[1] * t;
     }
-    console.log(a[1])
+    // console.log(a[1])
     return a[1];
   }
   

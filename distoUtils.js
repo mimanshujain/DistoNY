@@ -1,19 +1,22 @@
 loadData("ny");
 
 function loadData(region){
+// document.getElementById("field").style.font-weight = "bold";
 var eriemap = {};
 eriemap["id"] = "erie"
 eriemap["filename"] = "ErieCountyMainCSV.topojson";
 eriemap["scale"] = 33;
 eriemap["tarns1"] = -23600;
 eriemap["tarns2"] = -4750;
+eriemap["stroke"] = 0.04;
 
 var nymap = {};
 nymap["id"] = "ny"
-nymap["filename"] = "CountyDataNewCSVMerge.topojson";
+nymap["filename"] = "CountyDataWithCrimeRateCSVMerge.topojson";
 nymap["scale"] = 6.5;
 nymap["tarns1"] = -4600;
-nymap["tarns2"] = -640;
+nymap["tarns2"] = -620;
+nymap["stroke"] = 0.15;
 
 var allmaps = {};
 allmaps["erie"] = eriemap;
@@ -27,7 +30,8 @@ var width = "30%",
 if(datamap.id=="ny"){
   document.getElementById("portfolio").innerHTML = "New York Distorted Map"
   document.getElementById("top").style.display='none';
-  width = "65%"
+  width = "45%"
+  // document.getElementsByClassName('path.state')[0].style.stroke-width = 0.08;
 } else{
   document.getElementById("portfolio").innerHTML = "Erie County Distorted Map"
     document.getElementById("top").style.display='block';
@@ -42,7 +46,7 @@ var svg1 = d3.select("#mapc").append("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("id", "map")
-    .attr("style","margin-left:auto; margin-right:auto; diaplay:block;");
+    .attr("style","margin-left:auto; margin-right:auto; display:block;");//background-color:#E0E0E0;
 
 // hide the form if the browser doesn't do SVG,
 // (then just let everything else fail)
@@ -62,25 +66,28 @@ var percent = (function() {
       {name: "Population", id: "Population", key: "Population", ratio:"none", ny:true,erie:true},
       {name: "Population Per Square Mile", id: "Population Per Square Mile", key: "Population Per Square Mile", ratio:"none", ny:false,erie:true},
 /*      {name: "Area (sq mi)", id: "Muni Area (sq mi)", key: "Muni Area (sq mi)", ratio:"none"},
-*/      {name: "% Households With Cable", id: "%_HH_With_Cable", key: "%_HH_With_Cable", ratio:"none", ny:false,erie:true},
-      {name: "% Households With Fiber", id: "%_HH_With_Fiber", key: "%_HH_With_Fiber", ratio:"none", ny:false,erie:true},
+*/      {name: "Households With Cable (%)", id: "%_HH_With_Cable", key: "%_HH_With_Cable", ratio:"none", ny:false,erie:true},
+      {name: "Households With Fiber (%)", id: "%_HH_With_Fiber", key: "%_HH_With_Fiber", ratio:"none", ny:false,erie:true},
       {name: "Residential Market Value Ratio", id: "Residential Market Value Ratio", key: "Residential Market Value Ratio", ratio:"none", ny:false,erie:true},
-      {name: "Households per sq mi", id: "HH", key: "HH", ratio: "Muni Area (sq mi)", ny:false,erie:true},
+      {name: "Households per square miles", id: "HH", key: "HH", ratio: "Muni Area (sq mi)", ny:false,erie:true},
       {name: "Family Households per sq mi", id: "HH_fam", key: "HH_fam", ratio: "Muni Area (sq mi)", ny:true,erie:true},
       {name: "Married Couple Families (%)", id: "Married", key: "Married", ratio:"Population", ny:false,erie:true},
-      {name: "Male (%)", id: "Male", key: "Male", ratio:"Population", ny:true,erie:true},
-      {name: "Female (%)", id: "Female", key: "Female", ratio:"Population", ny:true,erie:true},
-      {name: "One_Race (%)", id: "One_Race", key: "One_Race", ratio:"Population", ny:false,erie:true},
+      {name: "Male Population(%)", id: "Male", key: "Male", ratio:"Population", ny:true,erie:true},
+      {name: "Female Population(%)", id: "Female", key: "Female", ratio:"Population", ny:true,erie:true},
+      {name: "One Race (%)", id: "One_Race", key: "One_Race", ratio:"Population", ny:false,erie:true},
       {name: "Black or African Americans (%)", id: "Black or AA", key: "Black or AA", ratio:"Population", ny:true,erie:true},
       {name: "Whites (%)", id: "White", key: "White", ratio:"Population", ny:true,erie:true},
       {name: "Asians (%)", id: "Asian", key: "Asian", ratio:"Population", ny:true,erie:true},
       {name: "High School Grads (%)", id: "HSgrad", key: "HSgrad", ratio:"Population", ny:false,erie:true},
       {name: "College (%)", id: "SomeCollege", key: "SomeCollege", format: "+,", ratio:"Population", ny:false,erie:true},
       {name: "Associate Degree (%)", id: "Assoc_Degree", key: "Assoc_Degree", ratio:"Population", ny:false,erie:true},
-      {name: "Bach Degree (%)", id: "Bach_Degree", key: "Bach_Degree", ratio:"Population", ny:false,erie:true},
-      {name: "Grad_Prof_degree (%)", id: "Grad_Prof_degree", key: "Grad_Prof_degree", ratio:"Population", ny:false,erie:true},
-      {name: "Per_HSgradHigher (%)", id: "Per_HSgradHigher", key: "Per_HSgradHigher", ratio:"Population", ny:false,erie:true},
-      {name: "PerBachorHigher (%)", id: "PerBachorHigher", key: "PerBachorHigher", ratio:"Population", ny:false,erie:true},
+      {name: "Bachelor Degree (%)", id: "Bach_Degree", key: "Bach_Degree", ratio:"Population", ny:false,erie:true},
+      {name: "Graduate Professional Degree (%)", id: "Grad_Prof_degree", key: "Grad_Prof_degree", ratio:"Population", ny:false,erie:true},
+      {name: "Per HS grad Higher (%)", id: "Per_HSgradHigher", key: "Per_HSgradHigher", ratio:"none", ny:false,erie:true},
+      {name: "Per Bachelor Higher (%)", id: "PerBachorHigher", key: "PerBachorHigher", ratio:"none", ny:false,erie:true},
+      {name: "Index Crime Rate", id: "Index Crime Rate", key: "Index Crime Rate", ratio:"none", ny:true,erie:false},
+      {name: "Violent Crime Rate", id: "Violent Crime Rate", key: "Violent Crime Rate", ratio:"none", ny:true,erie:false},
+      {name: "Property Crime Rate", id: "Property Crime Rate", key: "Property Crime Rate", ratio:"none", ny:true,erie:false},
     ],
     years = [2010, 2011],
     fieldsById = d3.nest()
@@ -198,6 +205,7 @@ function init() {
       .attr("id", function(d) {
         return d.properties.NAME;
       })
+      .attr("stroke-width",datamap["stroke"])
       .attr("fill", "#fafafa")
       .attr("d", path);
 
@@ -299,7 +307,7 @@ function update() {
   toptable.innerHTML = "";
   var r = toptable.insertRow(0);
   var c = r.insertCell(0);
-  c.innerHTML = "<b>Top 10 in "+feildname+"</b>";
+  c.innerHTML = "<b>Top 10 in <span style='color:#339BEB;'>" + feildname + "</span></b>";
 
   for (var i = 0; i < tuples.length && i<10; i++) {
       //console.log(tuples[i][0]+"  "+tuples[i][1]);
