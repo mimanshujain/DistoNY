@@ -529,18 +529,8 @@ text-anchor: middle;
 		<!-- Custom Scripts -->
 		<script type="text/javascript" src="js/custom.js"></script>
 <script>
-document.getElementById("y_axis").style.display = 'none';
-document.getElementById("circle").style.display = 'none';
-$('#poverty1').click(function(e) {
-    //alert('alerted');
-    document.getElementById("y_axis").style.display = 'block';
-    e.preventDefault();// prevent the default anchor functionality
-});
-$('#poverty1').click(function(e) {
-    //alert('alerted');
-    document.getElementById("y_axis").style.display = 'block';
-    e.preventDefault();// prevent the default anchor functionality
-});
+// document.getElementById("y_axis").style.display = 'none';
+// document.getElementById("circle").style.display = 'none';
 // alert("Hi");
 loadVisual("education", "poverty", "health");
 // loadVisual();
@@ -645,7 +635,7 @@ var countrylabel = svg.append("text")
 var first_time = true;
 
 // Load the data.
-d3.json("http://localhost/Data.json", function(nations) {
+d3.json("data/Data.json", function(nations) {
 
   // A bisector since many nation's data is sparsely-defined.
   var bisect = d3.bisector(function(d) { return d[0]; });

@@ -179,7 +179,7 @@ window.onhashchange = function() {
 
 var segmentized = location.search === "?segmentized",
 /*          url = ["data","erienewcsv.topojson"].join("/");
-*/          url = ["http://localhost/data",datamap.filename].join("/");
+*/          url = ["/data",datamap.filename].join("/");
 d3.json(url, function(topo) {
   topology = topo;
   geometries = topology.objects.states.geometries;
